@@ -37,7 +37,7 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.recreate_grid()
         self.round = 0
-        self.last_round_count = [2,2]
+        self.last_round_grid = self.grid.copy()
 
     def recreate_grid(self):
         self.shape_list = arcade.ShapeElementList()
@@ -85,17 +85,38 @@ class MyGame(arcade.Window):
         # corner in the margin and go to a grid location that doesn't exist
 
         if row < rows and column < cols:
-            # Flip the location between 1 and 0.
+            # Flip the location between 1/2 and 0.
             if self.grid[row][column] == 0:
                 player = (self.round % 2)+1
                 self.round += 1
 
                 self.grid[row][column] = player
-
                 back.controller(self.grid, column, row, player)
+
+                counter_last = count_num(self.last_round_grid)
+                counter_new = count_num(self.grid)
+                if counter_last[0] < counter_new[0]-1 or counter_last[1] < counter_new[1]-1:
+                    print("ok")
+                    self.last_round_grid = self.grid.copy()
+                else: 
+                    print("need to take 1")
+                    self.grid = self.last_round_grid.copy()
+                    self.round -= 1
+                    
             else:
                 print("not a free spot")
         self.recreate_grid()
+
+def count_num(grid):
+    counter = [0,0]
+    for i in grid:
+        for j in i:
+            if j == 1:
+                counter[0] += 1
+            if j == 2:
+                counter[1] += 1
+    return counter
+
 
 def main():
     MyGame(screen_width, screen_height, title)
