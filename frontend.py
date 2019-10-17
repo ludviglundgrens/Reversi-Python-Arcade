@@ -1,4 +1,4 @@
-import pandas_backend as back
+import numpy_backend as back
 import arcade
 import numpy as np
 import pandas as pd
@@ -16,7 +16,6 @@ margin = 1
 screen_width = (width + margin) * cols + margin
 screen_height = (height + margin) * rows + margin
 title = "Reversi"
-
 
 class MyGame(arcade.Window):
     """
@@ -47,9 +46,9 @@ class MyGame(arcade.Window):
 
         for column in range(len(self.grid)):
             for row in range(len(self.grid)):
-                if self.grid[column][rows-row-1] == 1:
+                if self.grid[rows-row-1][column] == 1:
                     color = arcade.color.WHITE
-                elif self.grid[column][rows-row-1] == 2:
+                elif self.grid[rows-row-1][column] == 2:
                     color = arcade.color.BLACK
                 else:
                     color = arcade.color.GREEN
@@ -64,7 +63,6 @@ class MyGame(arcade.Window):
         """
         Render the screen.
         """
-
         # This command has to happen before we start drawing
         arcade.start_render()
         self.shape_list.draw()
@@ -86,31 +84,22 @@ class MyGame(arcade.Window):
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
 
-        
-
         if row < rows and column < cols:
-
             # Flip the location between 1 and 0.
-            if self.grid[column][row] == 0:
+            if self.grid[row][column] == 0:
                 player = (self.round % 2)+1
                 self.round += 1
 
-                self.grid[column][row] = player
+                self.grid[row][column] = player
 
                 back.controller(self.grid, column, row, player)
             else:
                 print("not a free spot")
-        
-        #Change grid
-        
-        
         self.recreate_grid()
-
 
 def main():
     MyGame(screen_width, screen_height, title)
     arcade.run()
-
 
 if __name__ == "__main__":
     main()
