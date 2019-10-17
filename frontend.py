@@ -102,7 +102,6 @@ class MyGame(arcade.Window):
                     print("need to take 1")
                     self.grid = self.last_round_grid.copy()
                     self.round -= 1
-                    
             else:
                 print("not a free spot")
         self.recreate_grid()
