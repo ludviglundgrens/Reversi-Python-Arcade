@@ -71,8 +71,8 @@ def find_opponent(player):
 def modify_num(to_modify, player, game_plan, x, y):
     opponent = find_opponent(player)
     counter = 0
-    for nums in to_modify:
-        counter += 1
+    for index, nums  in enumerate(to_modify):
+        #counter += 1
         print(counter, nums)
 
         # Hitta om det finns "Lockins"
@@ -98,7 +98,7 @@ def modify_num(to_modify, player, game_plan, x, y):
                             else:
                                 break
                         
-                        if counter == 3:
+                        if index == 2:
                             print(counter, nums)
                             
                             if x-y >= 0:
@@ -108,7 +108,7 @@ def modify_num(to_modify, player, game_plan, x, y):
 
                             return game_plan
                         
-                        if counter == 4:
+                        if index == 3:
                             print(counter, nums)
                             game_plan_flipped = np.flipud(game_plan)
 
