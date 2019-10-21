@@ -1,9 +1,7 @@
-# new_be
 
 import numpy_backend as back
 import arcade
 import numpy as np
-#import pandas as pd
 
 # Set how many rows and columns we will have
 rows = 6
@@ -18,6 +16,7 @@ margin = 1
 screen_width = (width + margin) * cols + margin
 screen_height = (height + margin) * rows + margin
 title = "Reversi"
+
 
 class MyGame(arcade.Window):
     """

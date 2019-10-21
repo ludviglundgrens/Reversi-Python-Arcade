@@ -73,7 +73,7 @@ def fill_simple(y,nums,opponent,player,index):
         if nums[y+1] == opponent and y+3 < len(nums):
             i = 1
             while True:
-                if nums[y+i+1] == opponent and y+i+3 < len(nums):
+                if nums[y+i+1] == opponent and y+i+2 < len(nums):
                     i += 1
                     continue
                 elif nums[y+i+1] == player:
