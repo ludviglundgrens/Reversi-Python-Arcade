@@ -3,7 +3,7 @@
 import numpy_backend as back
 import arcade
 import numpy as np
-import pandas as pd
+#import pandas as pd
 
 # Set how many rows and columns we will have
 rows = 6
@@ -44,7 +44,7 @@ class MyGame(arcade.Window):
     def recreate_grid(self):
         self.shape_list = arcade.ShapeElementList()
         
-        #xprint(self.grid)
+        #print(self.grid)
 
         for column in range(len(self.grid)):
             for row in range(len(self.grid)):

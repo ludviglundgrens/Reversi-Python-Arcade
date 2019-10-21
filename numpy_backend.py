@@ -69,11 +69,11 @@ def find_opponent(player):
         return 1
 
 def fill_simple(y,nums,opponent,player,index):
-    if y+1 < len(nums):
-        if nums[y+1] == opponent:
+    if y+1 < len(nums) and len(nums) > 2:
+        if nums[y+1] == opponent and y+3 < len(nums):
             i = 1
             while True:
-                if nums[y+i+1] == opponent and y+i+2 <= len(nums)-1:
+                if nums[y+i+1] == opponent and y+i+3 < len(nums):
                     i += 1
                     continue
                 elif nums[y+i+1] == player:
@@ -87,26 +87,26 @@ def fill_simple(y,nums,opponent,player,index):
                             break
                     print(index,nums)
                 break
-        if nums[y-1] == opponent:
-                i = 1
-                while True:
-                    #behövs för senare kriterier
-                    if nums[y-i-1] == opponent and y-i-2 >= 0:
-                        i += 1
-                        continue
-                    elif nums[y-i-1] == player:
-                        print("Lockin and change to:")
-                        # flip
-                        while True:
-                            nums[y-i] = player
-                            if nums[i] == opponent:
-                                i -= 1
-                                continue
-                            else:
-                                break
-                        print(nums)
-                    break
-        return nums
+    if nums[y-1] == opponent and len(nums) > 2 and y-2 >= 0:
+            i = 1
+            while True:
+                #behövs för senare kriterier
+                if nums[y-i-1] == opponent and y-i-2 >= 0:
+                    i += 1
+                    continue
+                elif nums[y-i-1] == player:
+                    print("Lockin and change to:")
+                    # flip
+                    while True:
+                        nums[y-i] = player
+                        if nums[y-i+1] == opponent:
+                            i -= 1
+                            continue
+                        else:
+                            break
+                    print(nums)
+                break
+    return nums
 
 def modify_num(to_modify, player, game_plan, x, y):
     opponent = find_opponent(player)
@@ -122,25 +122,26 @@ def modify_num(to_modify, player, game_plan, x, y):
             else:
                 placing = x
             new_nums = fill_simple(placing, nums, opponent, player, index)
+            print(new_nums)
             #fyll diagonalt
             if x-y >= 0:
                 np.fill_diagonal(game_plan[:,x-y:], new_nums)
             else:
                 np.fill_diagonal(game_plan[y-x:,:], new_nums)
         if index == 3:  
-            y_inv = len(game_plan)-y
+            y_inv = len(game_plan)-y-1
             if x-y_inv >= 0:
                 placing = y_inv
             else:
                 placing = x
             new_nums = fill_simple(placing, nums, opponent, player, index)
-
+            print(new_nums)
             #fyll diagonalt
             game_plan_flipped = np.flipud(game_plan)
-            if x-y_inv < 0:
-                np.fill_diagonal(game_plan_flipped[y_inv-x-1:,:], nums)
+            if x-y_inv >= 0:
+                np.fill_diagonal(game_plan_flipped[:,x-y_inv:], nums)
             else:
-                np.fill_diagonal(game_plan_flipped[:,x-y_inv+1:], nums)
+                np.fill_diagonal(game_plan_flipped[y_inv-x:,:], nums)
             return game_plan      
 
     return game_plan
