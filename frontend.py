@@ -44,7 +44,7 @@ class MyGame(arcade.Window):
     def recreate_grid(self):
         self.shape_list = arcade.ShapeElementList()
         
-        print(self.grid)
+        #xprint(self.grid)
 
         for column in range(len(self.grid)):
             for row in range(len(self.grid)):
