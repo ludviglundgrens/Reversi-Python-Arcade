@@ -12,11 +12,13 @@ width = 50
 height = 50
 margin = 1
 
-# Do the math to figure out our screen dimensions
-screen_width = (width + margin) * cols + margin
-screen_height = (height + margin) * rows + margin
-title = "Reversi"
+# Right margin
+right_margin = 100
 
+# Do the math to figure out our screen dimensions
+screen_width = (width + margin) * cols + margin + right_margin
+screen_height = (height + margin) * rows + margin 
+title = "Reversi"
 
 class MyGame(arcade.Window):
     """
@@ -40,6 +42,8 @@ class MyGame(arcade.Window):
         self.round = 0
         self.last_round_grid = self.grid.copy()
 
+        
+
     def recreate_grid(self):
         self.shape_list = arcade.ShapeElementList()
         
@@ -60,6 +64,16 @@ class MyGame(arcade.Window):
                 current_rect = arcade.create_rectangle_filled(x, y, width, height, color)
                 self.shape_list.append(current_rect)
 
+        quit_sprite = arcade.Sprite("quit.png", 0.7)
+        pass_sprite = arcade.Sprite("pass.png", 0.7)
+        quit_sprite.center_x = 355
+        quit_sprite.center_y = 270
+        pass_sprite.center_x = 355
+        pass_sprite.center_y = 220
+        self.button_list = arcade.SpriteList()
+        self.button_list.append(quit_sprite)
+        self.button_list.append(pass_sprite)
+
     def on_draw(self):
         """
         Render the screen.
@@ -67,6 +81,7 @@ class MyGame(arcade.Window):
         # This command has to happen before we start drawing
         arcade.start_render()
         self.shape_list.draw()
+        self.button_list.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
