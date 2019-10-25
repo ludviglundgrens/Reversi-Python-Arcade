@@ -24,7 +24,6 @@ class MyGame(arcade.Window):
     """
     Main application class.
     """
-
     def __init__(self, width, height, title):
         """
         Set up the application.
@@ -38,11 +37,11 @@ class MyGame(arcade.Window):
 
         # Neccesitys to keep track of game
         arcade.set_background_color(arcade.color.BLACK)
-        self.recreate_grid()
+        
         self.round = 0
         self.last_round_grid = self.grid.copy()
 
-        
+        self.recreate_grid()
 
     def recreate_grid(self):
         self.shape_list = arcade.ShapeElementList()
@@ -70,9 +69,28 @@ class MyGame(arcade.Window):
         quit_sprite.center_y = 270
         pass_sprite.center_x = 355
         pass_sprite.center_y = 220
+
         self.button_list = arcade.SpriteList()
         self.button_list.append(quit_sprite)
         self.button_list.append(pass_sprite)
+        
+        self.quit_sprite_position = quit_sprite.left, quit_sprite.right, quit_sprite.top-quit_sprite.height, quit_sprite.top
+        self.pass_sprite_position = pass_sprite.left, pass_sprite.right, pass_sprite.top-pass_sprite.height, pass_sprite.top
+
+        player_1 = arcade.Sprite("player_1.png", 0.5)
+        player_2 = arcade.Sprite("player_2.png", 0.5)
+
+        player_1.center_x = 355
+        player_1.center_y = 50
+        player_2.center_x = 355
+        player_2.center_y = 50
+
+        player = (self.round % 2)+1
+
+        if player == 1:
+            self.button_list.append(player_1)
+        else:
+            self.button_list.append(player_2)
 
     def on_draw(self):
         """
@@ -120,7 +138,20 @@ class MyGame(arcade.Window):
                     self.round -= 1
             else:
                 print("not a free spot")
-        self.recreate_grid()
+            self.recreate_grid()
+        
+        else:
+            # båda knapparna är inom detta x
+            if self.quit_sprite_position[0] < x < self.quit_sprite_position[1]:
+                if self.quit_sprite_position[2] < y < self.quit_sprite_position[3]:
+                    print("quit")
+                    arcade.close_window()
+                elif self.pass_sprite_position[2] < y < self.pass_sprite_position[3]:
+                    print("pass")
+                    self.round += 1
+                    self.recreate_grid()
+
+            print(self.quit_sprite_position)
 
 def count_num(grid):
     counter = [0,0]
@@ -132,6 +163,30 @@ def count_num(grid):
                 counter[1] += 1
     return counter
 
+# class MenuView(arcade.View):
+#     def on_show(self):
+#         arcade.set_background_color(arcade.color.WHITE)
+
+#     def on_draw(self):
+#         arcade.start_render()
+#         menu_sprite = arcade.Sprite("menu_view.png", 0.7)
+#         menu_sprite.center_x = screen_width / 2
+#         menu_sprite.center_y = screen_height / 2
+#         menu_sprite.draw()
+
+#         quit_sprite = arcade.Sprite("quit.png", 0.7)
+#         quit_sprite.center_x = screen_width / 2
+#         quit_sprite.center_y = screen_height / 2 - 100
+#         quit_sprite.draw()
+
+#     def on_mouse_press(self, x, y, _button, _modifiers):
+#         if y < screen_width/2 - 80:
+#             print("quit")
+            
+#         else:
+#             MyGame(screen_width, screen_height, title)
+        
+        
 
 def main():
     MyGame(screen_width, screen_height, title)
