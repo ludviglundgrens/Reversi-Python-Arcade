@@ -146,6 +146,16 @@ def modify_num(to_modify, player, game_plan, x, y):
 
     return game_plan
 
+def count_num(grid):
+    counter = [0,0]
+    for i in grid:
+        for j in i:
+            if j == 1:
+                counter[0] += 1
+            if j == 2:
+                counter[1] += 1
+    return counter       
+
 def main():
     game_plan = create_gameplan()
     print(game_plan)
