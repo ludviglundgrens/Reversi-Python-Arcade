@@ -58,6 +58,8 @@ def controller(game_plan, x,y, player):
     diag_2 = game_plan_flipped.diagonal(-len(game_plan_flipped)+x+y+1).copy()
     
     to_modify = [col, row, diag_1, diag_2]
+
+    # Modify num
     game_plan = modify_num(to_modify, player, game_plan, x, y)
 
     return game_plan
@@ -70,7 +72,9 @@ def find_opponent(player):
 
 def fill_simple(y,nums,opponent,player,index):
     if y+1 < len(nums) and len(nums) > 2:
-        if nums[y+1] == opponent and y+3 < len(nums):
+
+        # denna kan behövas ändras
+        if nums[y+1] == opponent and y+2 < len(nums):
             i = 1
             while True:
                 if nums[y+i+1] == opponent and y+i+2 < len(nums):
