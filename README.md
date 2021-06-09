@@ -1,4 +1,4 @@
-# P Uppgift
+# Reversi game made in Python with the framework Arcade
 
 ## Backend
 - Numpy
